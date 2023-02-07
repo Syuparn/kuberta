@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io"
+	"os/exec"
 )
 
 func Exec(args []string, w io.Writer) error {
@@ -21,5 +22,14 @@ func Exec(args []string, w io.Writer) error {
 		return nil
 	}
 
+	delegateToKubectl(args, w)
+
 	return nil
+}
+
+func delegateToKubectl(args []string, w io.Writer) error {
+	cmd := exec.Command("kubectl", args...)
+	cmd.Stdout = w
+
+	return cmd.Run()
 }

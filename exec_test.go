@@ -19,9 +19,19 @@ func TestExec(t *testing.T) {
 			expected: helpMessage,
 		},
 		{
-			name:     "use long resource name",
+			name:     "raise an error when long resource name is used",
 			args:     []string{"get", "replicasets"},
 			expected: "ERROR: too long! should be `kubectl get rs`\n",
+		},
+		{
+			name:     "delegate to kubectl when long resource name is not specified",
+			args:     []string{"create", "ns", "default", "--dry-run=client"},
+			expected: "namespace/default created (dry run)\n",
+		},
+		{
+			name:     "raise an error when long resource name is used (compared)",
+			args:     []string{"create", "namespaces", "default", "--dry-run=client"},
+			expected: "ERROR: too long! should be `kubectl create ns default --dry-run=client`\n",
 		},
 	}
 
