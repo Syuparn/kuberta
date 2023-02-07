@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGetAliasMap(t *testing.T) {
-	m, err := GetAliasMap()
+func TestGetResourceAliasMap(t *testing.T) {
+	m, err := GetResourceAliasMap()
 
 	assert.NoError(t, err)
 
@@ -19,7 +19,7 @@ func TestGetAliasMap(t *testing.T) {
 	assert.Equal(t, "deploy", m["deployment"])
 	assert.Equal(t, "svc", m["service"])
 
-	// TODO: plural
+	// plural
 	assert.Equal(t, "po", m["pods"])
 	assert.Equal(t, "rs", m["replicasets"])
 	assert.Equal(t, "deploy", m["deployments"])

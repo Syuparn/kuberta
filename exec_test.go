@@ -18,6 +18,11 @@ func TestExec(t *testing.T) {
 			args:     []string{},
 			expected: helpMessage,
 		},
+		{
+			name:     "use long resource name",
+			args:     []string{"get", "replicasets"},
+			expected: "ERROR: too long! should be `kubectl get rs`\n",
+		},
 	}
 
 	for _, tt := range tests {

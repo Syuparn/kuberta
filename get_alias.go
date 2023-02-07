@@ -9,7 +9,7 @@ import (
 	"github.com/samber/lo"
 )
 
-func GetAliasMap() (map[string]string, error) {
+func GetResourceAliasMap() (map[string]string, error) {
 	cmd := exec.Command("kubectl", "api-resources", "--no-headers")
 	b, err := cmd.Output()
 	if err != nil {
