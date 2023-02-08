@@ -66,3 +66,54 @@ func TestValiadateResourceNamesError(t *testing.T) {
 		})
 	}
 }
+
+func TestValiadateOptionNames(t *testing.T) {
+	aliases := map[string]string{
+		"--namespace": "-n",
+	}
+
+	tests := []struct {
+		name string
+		args []string
+	}{
+		{
+			name: "with short options",
+			args: []string{"get", "po", "-n", "foo"},
+		},
+	}
+
+	for _, tt := range tests {
+		tt := tt // pin
+		t.Run(tt.name, func(t *testing.T) {
+			err := ValidateOptions(tt.args, aliases)
+			assert.NoError(t, err)
+		})
+	}
+}
+
+func TestValiadateOptionsError(t *testing.T) {
+	aliases := map[string]string{
+		"--namespace": "-n",
+	}
+
+	tests := []struct {
+		name          string
+		args          []string
+		expectedError string
+	}{
+		{
+			name:          "with long options",
+			args:          []string{"get", "po", "--namespace", "foo"},
+			expectedError: "too long! should be `kubectl get po -n foo`",
+		},
+	}
+
+	for _, tt := range tests {
+		tt := tt // pin
+		t.Run(tt.name, func(t *testing.T) {
+			err := ValidateOptions(tt.args, aliases)
+			assert.Error(t, err)
+			assert.EqualError(t, err, tt.expectedError)
+		})
+	}
+}

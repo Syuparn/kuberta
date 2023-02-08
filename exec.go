@@ -11,11 +11,21 @@ func Exec(args []string, w io.Writer) error {
 		return Help(w)
 	}
 
-	aliases, err := GetResourceAliasMap()
+	resourceAliases, err := GetResourceAliasMap()
 	if err != nil {
 		return fmt.Errorf("FATAL: failed to create resource alias map: %w", err)
 	}
-	err = ValidateResourceNames(args, aliases)
+	err = ValidateResourceNames(args, resourceAliases)
+	if err != nil {
+		fmt.Fprintf(w, "ERROR: %s\n", err)
+		return nil
+	}
+
+	optionAliases, err := GetOptionAliasMap(args)
+	if err != nil {
+		return fmt.Errorf("FATAL: failed to create option alias map: %w", err)
+	}
+	err = ValidateOptions(args, optionAliases)
 	if err != nil {
 		fmt.Fprintf(w, "ERROR: %s\n", err)
 		return nil

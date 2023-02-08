@@ -28,3 +28,20 @@ func ValidateResourceNames(args []string, aliases map[string]string) error {
 
 	return nil
 }
+
+func ValidateOptions(args []string, aliases map[string]string) error {
+	expectedArgs := make([]string, len(args))
+	copy(expectedArgs, args)
+
+	for i, arg := range args {
+		if alias, ok := aliases[arg]; ok {
+			expectedArgs[i] = alias
+		}
+	}
+
+	if !reflect.DeepEqual(args, expectedArgs) {
+		return fmt.Errorf("too long! should be `kubectl %s`", strings.Join(expectedArgs, " "))
+	}
+
+	return nil
+}
