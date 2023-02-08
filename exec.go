@@ -11,7 +11,6 @@ func Exec(args []string, w io.Writer) error {
 		return Help(w)
 	}
 
-	// TODO: delegate to kubectl
 	aliases, err := GetResourceAliasMap()
 	if err != nil {
 		return fmt.Errorf("FATAL: failed to create resource alias map: %w", err)
