@@ -21,3 +21,7 @@ $ kuberta get rs -n foo
 NAME              DESIRED   CURRENT   READY   AGE
 nginx-76d6c9b8c   1         1         0       9s
 ```
+
+# Contributions
+
+`kuberta` uses many hacks and may have some edge-case bugs. Any contributions are always welcome!
