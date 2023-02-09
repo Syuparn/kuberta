@@ -5,6 +5,14 @@ let's practice kubectl short-coding!
 
 Don't waste your time in CKAD by lengthy commands! kuberta helps you to get used to short aliases.
 
+# Install
+
+```bash
+$ go install github.com/syuparn/kuberta@latest
+```
+
+NOTE: `kubectl` should be installed in advance
+
 # Usage
 
 `kuberta` works as a thin wrapper of `kubectl`. It raises errors if you forget to use short aliases.
@@ -21,6 +29,8 @@ $ kuberta get rs -n foo
 NAME              DESIRED   CURRENT   READY   AGE
 nginx-76d6c9b8c   1         1         0       9s
 ```
+
+Tips: add `alias k=kuberta` to `~/.bashrc` so that you can run this command by `k` (ex: `k get po`)
 
 # Contributions
 
