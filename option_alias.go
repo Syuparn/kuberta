@@ -27,9 +27,9 @@ func GetOptionAliasMap(args []string) (map[string]string, error) {
 
 func getOptionAliasMap(args []string) (map[string]string, error) {
 	cmd := exec.Command("kubectl", args...)
-	out, err := cmd.Output()
+	out, err := cmd.CombinedOutput()
 	if err != nil {
-		return nil, fmt.Errorf("failed to get option list: args: `%s`: %w", strings.Join(args, " "), err)
+		return nil, fmt.Errorf("failed to get option list: args: `%s`: %w\n\n%s", strings.Join(args, " "), err, out)
 	}
 
 	optLines := trimOptionText(string(out))
