@@ -3,6 +3,7 @@ module github.com/syuparn/kuberta
 go 1.20
 
 require (
+	github.com/Songmu/gocredits v0.3.0
 	github.com/samber/lo v1.37.0
 	github.com/stretchr/testify v1.8.1
 )

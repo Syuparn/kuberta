@@ -1,0 +1,41 @@
+project_name: kuberta
+env:
+  - GO111MODULE=on
+before:
+  hooks:
+    - go mod tidy
+    - go generate
+builds:
+  - main: .
+    binary: kuberta
+    ldflags:
+      - -s -w
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - freebsd
+      - windows
+      - linux
+    goarch:
+      - 386
+      - amd64
+      - arm
+      - arm64
+archives:
+  - name_template: '{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
+    replacements:
+      darwin: darwin
+      linux: linux
+      windows: windows
+      386: i386
+      amd64: x86_64
+    files:
+      - LICENSE
+      - README.md
+      - CREDITS
+release:
+  prerelease: auto
+  extra_files:
+    - glob: ./LICENSE
+    # lisences of the dependent modules
+    - glob: ./CREDITS
