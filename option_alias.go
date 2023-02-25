@@ -85,7 +85,8 @@ func deleteContainerArgs(args []string) []string {
 	for i, arg := range args {
 		// args after "--" is for container commands and have nothing to do with kubectl.
 		if arg == "--" {
-			return args[:i]
+			// NOTE: args[:i] cannot be returned directly because append(args[:i], e) will break args[i]!
+			return append([]string{}, args[:i]...)
 		}
 	}
 
