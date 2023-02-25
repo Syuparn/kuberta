@@ -29,6 +29,22 @@ func TestGetOptionAliasMap(t *testing.T) {
 				"--namespace": "-n",
 			},
 		},
+		{
+			name: "args with options",
+			args: []string{"run", "nginx", "--image", "nginx", "--dry-run=client"},
+			expected: map[string]string{
+				"--output": "-o",
+				"--labels": "-l",
+			},
+		},
+		{
+			name: "ignore args after --, which are passed to container",
+			args: []string{"run", "nginx", "--image", "nginx", "--dry-run=client", "--", "ls"},
+			expected: map[string]string{
+				"--output": "-o",
+				"--labels": "-l",
+			},
+		},
 	}
 
 	for _, tt := range tests {

@@ -9,6 +9,9 @@ import (
 )
 
 func GetOptionAliasMap(args []string) (map[string]string, error) {
+	// remove args for container commands, which come after "--".
+	args = deleteContainerArgs(args)
+
 	// command-specific options
 	// HACK: append `-h` to get help message of specified command
 	specOpts, err := getOptionAliasMap(append(args, "-h"))
@@ -76,4 +79,15 @@ func parseOptionAlias(line string) (alias string, option string, ok bool) {
 	}
 
 	return options[0], options[1], true
+}
+
+func deleteContainerArgs(args []string) []string {
+	for i, arg := range args {
+		// args after "--" is for container commands and have nothing to do with kubectl.
+		if arg == "--" {
+			return args[:i]
+		}
+	}
+
+	return args
 }
