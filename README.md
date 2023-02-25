@@ -8,6 +8,10 @@ Don't waste your time in CKAD by lengthy commands! kuberta helps you to get used
 # Install
 
 ```bash
+# download binary
+$ wget https://github.com/Syuparn/kuberta/releases/download/${version}/kuberta_linux_x86_64.tar.gz
+$ tar -xvzf kuberta_linux_x86_64.tar.gz
+# or using Go
 $ go install github.com/syuparn/kuberta@latest
 ```
 
