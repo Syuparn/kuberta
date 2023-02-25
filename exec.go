@@ -8,9 +8,9 @@ import (
 
 // Exec validates the specified arguments and delegates to kubectl.
 // This returns error caused by kuberta itself and exit status.
-func Exec(args []string, w io.Writer) (error, int) {
+func Exec(args []string, stdOutWriter, stdErrWriter io.Writer) (error, int) {
 	if len(args) == 0 {
-		return Help(w), 0
+		return Help(stdOutWriter), 0
 	}
 
 	resourceAliases, err := GetResourceAliasMap()
@@ -19,7 +19,7 @@ func Exec(args []string, w io.Writer) (error, int) {
 	}
 	err = ValidateResourceNames(args, resourceAliases)
 	if err != nil {
-		fmt.Fprintf(w, "ERROR: %s\n", err)
+		fmt.Fprintf(stdErrWriter, "ERROR: %s\n", err)
 		// NOTE: ignore error because error messages have already been shown
 		return nil, 1
 	}
@@ -30,12 +30,12 @@ func Exec(args []string, w io.Writer) (error, int) {
 	}
 	err = ValidateOptions(args, optionAliases)
 	if err != nil {
-		fmt.Fprintf(w, "ERROR: %s\n", err)
+		fmt.Fprintf(stdErrWriter, "ERROR: %s\n", err)
 		// NOTE: ignore error because error messages have already been shown
 		return nil, 1
 	}
 
-	err = delegateToKubectl(args, w)
+	err = delegateToKubectl(args, stdOutWriter, stdErrWriter)
 	if err != nil {
 		// NOTE: ignore error because error messages have already been shown
 		return nil, 1
@@ -44,10 +44,10 @@ func Exec(args []string, w io.Writer) (error, int) {
 	return nil, 0
 }
 
-func delegateToKubectl(args []string, w io.Writer) error {
+func delegateToKubectl(args []string, stdOutWriter, stdErrWriter io.Writer) error {
 	cmd := exec.Command("kubectl", args...)
-	cmd.Stdout = w
-	cmd.Stderr = w
+	cmd.Stdout = stdOutWriter
+	cmd.Stderr = stdErrWriter
 
 	return cmd.Run()
 }
