@@ -36,6 +36,15 @@ nginx-76d6c9b8c   1         1         0       9s
 
 Tips: add `alias k=kuberta` to `~/.bashrc` so that you can run this command by `k` (ex: `k get po`)
 
+```bash
+# set alias
+echo 'alias k=kuberta' >>~/.bashrc
+# enable command auto-completion
+echo 'complete -o default -F __start_kubectl k' >>~/.bashrc
+```
+
+(See [Official install guide](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/) for details)
+
 # Contributions
 
 `kuberta` uses many hacks and may have some edge-case bugs. Any contributions are always welcome!
